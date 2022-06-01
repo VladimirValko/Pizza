@@ -6,7 +6,7 @@ const PizzaBlock = ({imageUrl, title, price, sizes, types}) => {
   // что бы отрисовать называние теста пришедшее из массива в виде циффр 0 и 1
   // 0 - будет тонкое, 1 - традиционное, в соответсвии с их индексами в массиве typeNames
 
-  const [isActiveSize, setIsActiveSize] = useState(0);
+  const [isActiveSize, setIsActiveSize] = useState(0); 
   const [isActiveType, setIsActiveType] = useState(0);
 
 
