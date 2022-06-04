@@ -31,7 +31,7 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(8)].map((_, index) => <Skeleton key={index} />)
+          ? [...new Array(8)].map((_, index) => <Skeleton className="skeleton" key={index} />)
           : items.map(
               (pizza, i) => <PizzaBlock {...pizza} key={i + pizza.title} />,
               //[...new Array(6)] фэйковый массив с 6 undefined что бы отрендерить 6 скелетонов

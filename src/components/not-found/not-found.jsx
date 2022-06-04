@@ -10,6 +10,7 @@ const NotFound = () => {
       <span className={styles.description}><p>К сожалению такая страница отсутствует в нашем интернет-магазине</p></span>
       <img 
       src={img}
+      alt='not-Found'
       className={styles.image} />
     </div>
   );
