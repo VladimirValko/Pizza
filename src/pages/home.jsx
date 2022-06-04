@@ -8,9 +8,18 @@ import Skeleton from '../components/skeleton/Skeleton.jsx';
 const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [categoryId, setCategoryId] = useState(0);
+  const [sortType, setSortType] = useState({
+    name: 'популярности',
+    sortProp: 'rating',
+  });
 
   useEffect(() => {
-    fetch('https://629778388d77ad6f7503cbba.mockapi.io/items')
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    setIsLoading(true);
+    fetch(
+      `https://629778388d77ad6f7503cbba.mockapi.io/items?${category}&sortBy=${sortType.sortProp}`,
+    )
       .then((res) => {
         return res.json();
       })
@@ -20,13 +29,14 @@ const Home = () => {
       });
     // setIsLoading(false); если поставить здесь, скелетон появится и изчезнет
     // загрузка будет идти с путым экраном, тк fetch - это асинхронный процесс
-  }, []); // componentDidMount запрашивает пиццы из БД
+  }, [categoryId, sortType]); // componentDidMount запрашивает пиццы из БД
 
   return (
     <>
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories categoryId={categoryId} onClickCategory={(i) => setCategoryId(i)} />
+        {/* первый i - это выход, будет индекс категории в компоненте Categories ^*/}
+        <Sort value={sortType} onClickSortType={(value) => setSortType(value)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

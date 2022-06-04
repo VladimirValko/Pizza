@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 
-const Sort = () => {
+const Sort = ({ value, onClickSortType }) => {
+  // value это объект, который приходит к нам из стэйта homePage
+  // onClickSortType уносит на homePage новый выбранный объект и там он уходит в стэйт
   const [showPopUp, setShowPopUp] = useState(false);
-  const [activeSortTypeIndex, setActiveSortTypeIndex] = useState(0);
-  const popUpSortList = ['популрности', 'цене', 'алфавиту'];
 
-  function sortingFu(i) {
-    setActiveSortTypeIndex(i);
+  const popUpSortList = [
+    { name: 'популрности', sortProp: 'rating' },
+    { name: 'цене', sortProp: 'price' },
+    { name: 'алфавиту', sortProp: 'title' },
+  ];
+
+  function sortingFu(listItem) {
+    onClickSortType(listItem);
+    // listItem это объект
     setShowPopUp(!showPopUp);
   }
 
@@ -26,18 +33,18 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => setShowPopUp(!showPopUp)}>{popUpSortList[activeSortTypeIndex]}</span>
+          <span onClick={() => setShowPopUp(!showPopUp)}>{value.name}</span>
         </div>
         {showPopUp && (
           <div className="sort__popup">
             <ul>
-              {popUpSortList.map((listItem, i) => {
+              {popUpSortList.map((listItemObj, i) => {
                 return (
                   <li
-                    key={listItem + i}
-                    onClick={() => sortingFu(i)}
-                    className={activeSortTypeIndex === i ? 'active' : ''}>
-                    {listItem}
+                    key={listItemObj.sortProp + i}
+                    onClick={() => sortingFu(listItemObj)}
+                    className={value.sortProp === listItemObj.sortProp ? 'active' : ''}>
+                    {listItemObj.name}
                   </li>
                 );
               })}

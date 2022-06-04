@@ -43,6 +43,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-column-gap: 11px;
+    justify-content: center;
 
     .skeleton {
       margin: 0 auto;
@@ -79,7 +80,7 @@ body {
 
     ul {
       // display: flex;
-      // gap: 1rem;
+      gap: 1rem;
       flex-wrap: wrap;
       text-align: center;
 
@@ -255,9 +256,10 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 33%;
+      width: 40%;
 
       b {
+        text-align: center;
         font-weight: bold;
         font-size: 22px;
         letter-spacing: 0.01em;
