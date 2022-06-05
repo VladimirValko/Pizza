@@ -1,0 +1,40 @@
+.root {
+    position: relative;
+}
+
+.input {
+    width: 250px;
+    font-size: 16px;
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 25px;
+    line-height: 24px;
+    padding: 10px 40px;
+    position: relative;
+
+    &:focus{
+        border-color: rgb(107, 107, 107);
+    }
+}
+
+.searchIcon{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    opacity: 0.3;
+    left: 15px;
+    top: 14px;
+}
+
+.closeIcon{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    opacity: 0.3;
+    right: 15px;
+    top: 14px;
+    cursor: pointer;
+
+    &:hover{
+        opacity: 0.8;
+    }
+}
