@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Categories from '../components/categories/Categories';
 import PizzaBlock from '../components/pizza-block/PizzaBlock';
 import Sort from '../components/sort/Sort';
 import '../scss/app.scss';
 import Skeleton from '../components/skeleton/Skeleton.jsx';
+import  { SearchContext } from '../App'
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   // beckendPizzaArrayObjects это массив объектов
   const [backendPizzaArrayObjects, setBackendPizzaArrayObjects] = useState([]);
+  const { searchValue } = useContext(SearchContext);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCategoryId] = useState(0);
   const [sortType, setSortType] = useState({

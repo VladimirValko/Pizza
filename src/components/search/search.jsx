@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './search.module.scss';
+import { SearchContext } from '../../App';
+// import { SearchContext } нужен так как мы это объект нигде не прокидываем
+// он есть только в App
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+
+  const { searchValue, setSearchValue } = useContext(SearchContext)
+  // SearchContext приходит из App это createContext
+  // а в нем лежит  <SearchContext.Provider value={{searchValue, setSearchValue}}>
+
   return (
     <div className={styles.root}>
       <input
         value={searchValue} // контролируемый ИНПУТ
         onChange={(e) => setSearchValue(e.target.value)}
+        // запихиваем введенные в инпут данные в searchValue
         className={styles.input}
         placeholder="Поиск пиццы"
       />
