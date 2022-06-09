@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import styles from './search.module.scss';
+import { useSelector } from 'react-redux';
+// import setSearchValue from '../../redux/slices/'
 import { SearchContext } from '../../App';
 // import { SearchContext } нужен так как мы это объект нигде не прокидываем
 // он есть только в App

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { setSortType } from '../../redux/slices/filterSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Sort = ({ value, onClickSortType }) => {
-  // value это объект, который приходит к нам из стэйта homePage
-  // onClickSortType уносит на homePage новый выбранный объект и там он уходит в стэйт
+const popUpSortList = [
+  { name: 'популрности', sortProp: 'rating' },
+  { name: 'цене', sortProp: 'price' },
+  { name: 'алфавиту', sortProp: 'title' },
+];
+
+const Sort = () => {
   const [showPopUp, setShowPopUp] = useState(false);
-
-  const popUpSortList = [
-    { name: 'популрности', sortProp: 'rating' },
-    { name: 'цене', sortProp: 'price' },
-    { name: 'алфавиту', sortProp: 'title' },
-  ];
+  const sortType = useSelector(state => state.filterReducer.sort);
+  const dispatch = useDispatch();
 
   function sortingFu(listItem) {
-    onClickSortType(listItem);
+    dispatch(setSortType(listItem));
     // listItem это объект
     setShowPopUp(!showPopUp);
   }
@@ -33,7 +35,7 @@ const Sort = ({ value, onClickSortType }) => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => setShowPopUp(!showPopUp)}>{value.name}</span>
+          <span onClick={() => setShowPopUp(!showPopUp)}>{sortType.name}</span>
         </div>
         {showPopUp && (
           <div className="sort__popup">
@@ -43,7 +45,7 @@ const Sort = ({ value, onClickSortType }) => {
                   <li
                     key={listItemObj.sortProp + i}
                     onClick={() => sortingFu(listItemObj)}
-                    className={value.sortProp === listItemObj.sortProp ? 'active' : ''}>
+                    className={sortType.sortProp === listItemObj.sortProp ? 'active' : ''}>
                     {listItemObj.name}
                   </li>
                 );

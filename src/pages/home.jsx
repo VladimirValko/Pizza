@@ -6,19 +6,21 @@ import '../scss/app.scss';
 import Skeleton from '../components/skeleton/Skeleton.jsx';
 import  { SearchContext } from '../App'
 
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
+
 const Home = () => {
   // beckendPizzaArrayObjects это массив объектов
   const [backendPizzaArrayObjects, setBackendPizzaArrayObjects] = useState([]);
   const { searchValue } = useContext(SearchContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(0);
-  const [sortType, setSortType] = useState({
-    name: 'популярности',
-    sortProp: 'rating',
-  });
+  const categoryId = useSelector(state => state.filterReducer.categoryId);
+  const sortType = useSelector(state => state.filterReducer.sort)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    // searchValue приходит из пропсов в виде строки и уходит в запрос на бэк
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
     setIsLoading(true);
@@ -50,12 +52,15 @@ const Home = () => {
     <Skeleton className="skeleton" key={index} />
   ));
 
+  console.log()
+
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={(i) => setCategoryId(i)} />
+        <Categories categoryId={categoryId} onClickCategory={(i) => dispatch(setCategoryId(i))} />
         {/* первый i - это выход, будет индекс категории в компоненте Categories ^*/}
-        <Sort value={sortType} onClickSortType={(value) => setSortType(value)} />
+        <Sort />
+        
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
