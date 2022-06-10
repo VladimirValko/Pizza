@@ -9,5 +9,3 @@ export const store = configureStore({
     searchReducer
   }
 });
-
-console.log(store)

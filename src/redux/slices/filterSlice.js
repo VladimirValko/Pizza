@@ -8,8 +8,6 @@ const initialState = { // state
   }
 }
 
-console.log(initialState.categoryId)
-
 // объект с логикой обработки слайса - стэйта
 export const filterSlice = createSlice({
   name: 'filter',
@@ -17,8 +15,6 @@ export const filterSlice = createSlice({
   reducers: { // setState -- экшены -- filterSlice.actions
     setCategoryId(state, action ){
       state.categoryId = action.payload
-      console.log(state.categoryId + ' это state.categoryId')
-      console.log(action.payload + ' это пэйлоад')
     },
     setSortType(state, action){
       state.sort = action.payload

@@ -1,23 +1,42 @@
-import React, { useContext } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import styles from './search.module.scss';
-import { useSelector } from 'react-redux';
-// import setSearchValue from '../../redux/slices/'
-import { SearchContext } from '../../App';
-// import { SearchContext } нужен так как мы это объект нигде не прокидываем
-// он есть только в App
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/slices/searchSlice';
+import debounce from 'lodash.debounce';
+// debounce задерживает отправку запроса при вводе текста в поиск
+// что бы не отправлять по запросу на каждую букву и не дудосить сервер
 
 const Search = () => {
+  const [inputVlue, setInputVlue] = useState('');
+  
+  const dispatch = useDispatch();
+  const inputRef = useRef();
 
-  const { searchValue, setSearchValue } = useContext(SearchContext)
-  // SearchContext приходит из App это createContext
-  // а в нем лежит  <SearchContext.Provider value={{searchValue, setSearchValue}}>
+  const onClickClear = () => {
+    setInputVlue('');
+    dispatch(setSearchValue(''));
+    inputRef.current.focus();
+  };
+
+  // useCallback что бы функция не сбрасывлась при перерисовке компонента 
+  const updateSerchVlue = useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 400),
+    [],
+  );
+
+  const onChangeInputValue = (evt) => {
+    updateSerchVlue(evt.target.value);
+    setInputVlue(evt.target.value);
+  };
 
   return (
     <div className={styles.root}>
       <input
-        value={searchValue} // контролируемый ИНПУТ
-        onChange={(e) => setSearchValue(e.target.value)}
-        // запихиваем введенные в инпут данные в searchValue
+        ref={inputRef}
+        value={inputVlue} // контролируемый ИНПУТ
+        onChange={onChangeInputValue}
         className={styles.input}
         placeholder="Поиск пиццы"
       />
@@ -29,11 +48,11 @@ const Search = () => {
         height="24px">
         <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z" />
       </svg>
-        {/* условный рендер крестика для очистки инпута */}
-      {searchValue && (
-        <svg 
+      {/* условный рендер крестика для очистки инпута */}
+      {inputVlue && (
+        <svg
           className={styles.closeIcon}
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           fill="#000000"
           viewBox="0 0 24 24"
           width="24px"

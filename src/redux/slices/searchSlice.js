@@ -10,8 +10,6 @@ export const searchSlice = createSlice({
     reducers: { // setState -- экшены -- filterSlice.actions
         setSearchValue(state, action ){
         state.searchValue = action.payload
-        console.log(state.searchValue + ' это state.searchValue')
-        console.log(action.payload + ' это пэйлоад')
       }
     },
   })
