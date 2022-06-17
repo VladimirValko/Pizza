@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import Categories from '../components/categories/Categories';
 import PizzaBlock from '../components/pizza-block/PizzaBlock';
 import Sort from '../components/sort/Sort';
 import '../scss/app.scss';
 import Skeleton from '../components/skeleton/Skeleton.jsx';
 
-const Home = ({ searchValue }) => {
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
+
+const Home = () => {
   // beckendPizzaArrayObjects это массив объектов
   const [backendPizzaArrayObjects, setBackendPizzaArrayObjects] = useState([]);
+  const searchValue  = useSelector(state => state.searchReducer.searchValue)
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(0);
-  const [sortType, setSortType] = useState({
-    name: 'популярности',
-    sortProp: 'rating',
-  });
+  const categoryId = useSelector(state => state.filterReducer.categoryId);
+  const sortType = useSelector(state => state.filterReducer.sort)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    // searchValue приходит из пропсов в виде строки и уходит в запрос на бэк
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
     setIsLoading(true);
-    fetch(
-      `https://629778388d77ad6f7503cbba.mockapi.io/items?${category}&sortBy=${sortType.sortProp}${search}`,
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((items) => {
-        setBackendPizzaArrayObjects(items);
-        setIsLoading(false);
-      });
+      axios.get(`https://629778388d77ad6f7503cbba.mockapi.io/items?${category}&sortBy=${sortType.sortProp}${search}`)
+        .then((response) => { // response это объект в котором есть наш массив помеченный как data
+          setBackendPizzaArrayObjects(response.data);
+          setIsLoading(false);
+        });
     // setIsLoading(false); если поставить здесь, скелетон появится и изчезнет
     // загрузка будет идти с путым экраном, тк fetch - это асинхронный процесс
   }, [categoryId, sortType, searchValue]); 
@@ -48,12 +47,15 @@ const Home = ({ searchValue }) => {
     <Skeleton className="skeleton" key={index} />
   ));
 
+  console.log()
+
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} onClickCategory={(i) => setCategoryId(i)} />
+        <Categories categoryId={categoryId} onClickCategory={(i) => dispatch(setCategoryId(i))} />
         {/* первый i - это выход, будет индекс категории в компоненте Categories ^*/}
-        <Sort value={sortType} onClickSortType={(value) => setSortType(value)} />
+        <Sort />
+        
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
