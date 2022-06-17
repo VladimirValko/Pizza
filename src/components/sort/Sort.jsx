@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { setSortType } from '../../redux/slices/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -12,6 +12,24 @@ const Sort = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const sortType = useSelector(state => state.filterReducer.sort);
   const dispatch = useDispatch();
+  const sortRef = useRef()
+
+  useEffect(() => {
+    const handleClickOutside = (evt) => {
+      if(!evt.path.includes(sortRef.current)){
+        setShowPopUp(false)
+        console.log('кликк')
+      }
+    }
+
+    document.body.addEventListener('click', handleClickOutside)
+    console.log('замаунтился')
+
+    return () => { // componentWillUnmount
+      document.body.removeEventListener('click', handleClickOutside)
+      console.log('размаунтился')
+    }
+  }, [])
 
   function sortingFu(listItem) {
     dispatch(setSortType(listItem));
@@ -21,7 +39,7 @@ const Sort = () => {
 
   return (
     <div>
-      <div className="sort">
+      <div ref={sortRef} className="sort">
         <div className="sort__label">
           <svg
             width="10"
