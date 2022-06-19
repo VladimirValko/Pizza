@@ -1,9 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import logo from '../../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import Search from '../search/search'
+import { motion, } from "framer-motion"
 
 const Header = () => {
+
+  const totalPrice = useSelector(state => state.cartReducer.totalPrice);
+  const pizzazInCart = useSelector(state => (state.cartReducer.products));
+
+  const totalCount = pizzazInCart.reduce((sum, pizza) => sum + pizza.count, 0)
 
   return (
     <div>
@@ -11,7 +18,12 @@ const Header = () => {
         <div className="container">
           <Link to="/">
           <div className="header__logo">
-            <img width="38" src={logo} alt="Pizza logo" />
+            <motion.img 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.7 }}
+            width="38" 
+            src={logo} 
+            alt="Pizza logo" />
             <div>
               <h1>Awesome Pizza</h1>
               <p>самая вкусная пицца во вселенной</p>
@@ -21,9 +33,10 @@ const Header = () => {
           <Search />
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
-              <span>520 ₽</span>
+              <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
               <svg
+                
                 width="18"
                 height="18"
                 viewBox="0 0 18 18"
@@ -52,7 +65,7 @@ const Header = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>3</span>
+              <span>{totalCount}</span>
             </Link>
           </div>
         </div>
