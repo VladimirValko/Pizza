@@ -1,24 +1,53 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Categories from '../components/categories/Categories';
 import PizzaBlock from '../components/pizza-block/PizzaBlock';
 import Sort from '../components/sort/Sort';
+import { popUpSortList } from '../components/sort/Sort'
+import qs from 'qs';
 import '../scss/app.scss';
 import Skeleton from '../components/skeleton/Skeleton.jsx';
 
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setURLFilters } from '../redux/slices/filterSlice';
 
 const Home = () => {
   // beckendPizzaArrayObjects это массив объектов
   const [backendPizzaArrayObjects, setBackendPizzaArrayObjects] = useState([]);
-  const searchValue  = useSelector(state => state.searchReducer.searchValue)
+  const searchValue  = useSelector(state => state.searchReducer.searchValue);
   const [isLoading, setIsLoading] = useState(true);
   const categoryId = useSelector(state => state.filterReducer.categoryId);
-  const sortType = useSelector(state => state.filterReducer.sort)
-  const dispatch = useDispatch()
+  const sortType = useSelector(state => state.filterReducer.sort);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(window.location.search){
+      const params = qs.parse(window.location.search.substring(1)) // substring(1) удалит ? вначале строки
+      // params это объект
+      console.log(params)
+
+      const sort = popUpSortList.find((obj) => obj.sortProp === params.sortType)
+      console.log(sort)
+
+      dispatch(setURLFilters({
+        ...params,
+        sort
+      }))
+    }
+  }, []);
+
+  useEffect(() => {
+    const queryString = qs.stringify({
+      sortType: sortType.sortProp,
+      categoryId,
+    })
+
+    navigate(`?${queryString}`)
+  }, [categoryId, sortType])
 
   useEffect(() => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -46,8 +75,6 @@ const Home = () => {
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton className="skeleton" key={index} />
   ));
-
-  console.log()
 
   return (
     <>
