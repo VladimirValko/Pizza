@@ -1,14 +1,28 @@
 import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { addProduct } from '../../redux/slices/cartSlice'
 
-const PizzaBlock = ({imageUrl, title, price, sizes, types}) => {
+const PizzaBlock = ({id, imageUrl, title, price, sizes, types}) => {
 
   const typeNames = ['Тонкое', 'Традиционное'];
   // что бы отрисовать называние теста пришедшее из массива в виде циффр 0 и 1
   // 0 - будет тонкое, 1 - традиционное, в соответсвии с их индексами в массиве typeNames
 
+  const cartItem = useSelector(state => state.cartReducer.products.find((obj) => obj.id === id))
+  const addedCount = cartItem ? cartItem.count : 0
+
   const [isActiveSize, setIsActiveSize] = useState(0); 
   const [isActiveType, setIsActiveType] = useState(0);
 
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    const pizzaItem = {
+      id, title, price, imageUrl, type: typeNames[isActiveType], sizes: sizes[isActiveSize]
+    }
+
+    dispatch(addProduct(pizzaItem))
+  }
 
   return (
     <div className='pizza-block__wrapper'>
@@ -43,7 +57,9 @@ const PizzaBlock = ({imageUrl, title, price, sizes, types}) => {
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <div className="button button--outline button--add">
+          <div 
+          onClick={addToCart}
+          className="button button--outline button--add">
             <svg
               width="12"
               height="12"
@@ -56,7 +72,7 @@ const PizzaBlock = ({imageUrl, title, price, sizes, types}) => {
               />
             </svg>
             <span>Добавить</span>
-            <i>2</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </div>
         </div>
       </div>
