@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { setSortType } from '../../redux/slices/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
-const popUpSortList = [
+export const popUpSortList = [
   { name: 'популрности', sortProp: 'rating' },
   { name: 'цене', sortProp: 'price' },
   { name: 'алфавиту', sortProp: 'title' },
