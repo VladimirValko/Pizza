@@ -16,5 +16,7 @@ export const searchSlice = createSlice({
   
   // Action creators are generated for each case reducer function
   export const { setSearchValue } = searchSlice.actions
+
+  export const searchSelector = (state) => state.searchReducer.searchValue
   
   export default searchSlice.reducer
