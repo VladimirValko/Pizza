@@ -5,7 +5,7 @@ import axios from 'axios';
 type PizzaType = {
     imageUrl: string,
     title: string,
-    price: Number,
+    price: number,
 }
 
 const FullPizza: React.FC = () => {
@@ -35,7 +35,7 @@ const FullPizza: React.FC = () => {
     <div className='content'>
         <img src={pizza.imageUrl} alt='пицца'/>
         <h2>{pizza.title}</h2>
-        <h4>{pizza.price} ₽</h4>
+        <h3>{pizza.price} ₽</h3>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi recusandae veniam cum consectetur quos, asperiores fuga atque voluptate suscipit quam veritatis dicta dolore eaque distinctio itaque omnis, quae modi! Eos!</p>
     </div>
   )
