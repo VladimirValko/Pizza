@@ -1,7 +1,13 @@
 import React from "react"
 import ContentLoader from "react-content-loader"
 
-const Skeleton = (props: any) => (
+type TSkeletonProps = {
+  className: string;
+  key: number;
+}
+
+const Skeleton: React.FC<TSkeletonProps> = (props) => (
+  
     <ContentLoader 
     className="pizza-block" // кастомный класс что бы скелетоны вставали в ряд как и пиццы
     speed={2}
@@ -10,7 +16,7 @@ const Skeleton = (props: any) => (
     viewBox="0 0 280 465"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
-    {...props}
+    key={props.key}
   >
     <rect x="17" y="121" rx="0" ry="0" width="4" height="0" /> 
     <circle cx="133" cy="126" r="126" /> 

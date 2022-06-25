@@ -6,11 +6,21 @@ import Search from '../search/search'
 import { motion, } from "framer-motion"
 import { cartReducer } from '../../redux/slices/cartSlice'
 
+type TPizza = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+}
+
 const Header:React.FC = () => {
 
   const  { products, totalPrice} = useSelector(cartReducer);
 
-  const totalCount: number = products.reduce((sum: number, pizza: any) => sum + pizza.count, 0)
+  const totalCount: number = products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0)
 
   return (
     <div>

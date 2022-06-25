@@ -5,15 +5,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearProducts, cartReducer} from '../redux/slices/cartSlice';
 import EmptyCart from '../components/emptyCart/emptyCart';
 
-// type PizzaType = {
-//   id: string;
-//   imageUrl: string;
-//   title: string;
-//   price: number;
-//   sizes: number[];
-//   types: number[];
-//   count: number;
-// };
+type TPizzaInCart = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: number;
+  sizes: number[];
+  count: number;
+}
+
+type TPizza = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+}
  
 const Cart: React.FC = () => {
 
@@ -26,7 +36,7 @@ const Cart: React.FC = () => {
 
   const {products, totalPrice} = useSelector(cartReducer);
 
-  const totalCount = products.reduce((sum: number, pizza: any) => sum + pizza.count, 0);
+  const totalCount = products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0);
 
 
   if (!totalPrice) {
@@ -112,7 +122,7 @@ const Cart: React.FC = () => {
             </div>
             <div className="content__items">
               {
-                products.map((item: any, i: number) => <PizzaInCart {...item} key={i + item.title}/>) // {...item} прокидываем все пропсы
+                products.map((item: TPizzaInCart, i: number) => <PizzaInCart {...item} key={i + item.title}/>) // {...item} прокидываем все пропсы
               }
             </div>
             <div className="cart__bottom">

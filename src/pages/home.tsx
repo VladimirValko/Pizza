@@ -1,7 +1,7 @@
 import qs from "qs";
 import "../scss/app.scss";
 import React, { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Categories from "../components/categories/Categories";
@@ -70,7 +70,6 @@ const Home: React.FC = () => {
       const sort = popUpSortList.find(
         (obj) => obj.sortProp === params.sortType
       );
-      console.log(sort);
 
       dispatch(
         setURLFilters({

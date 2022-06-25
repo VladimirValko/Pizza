@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { setSortType } from '../../redux/slices/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterSelector, filterSelectorSort } from '../../redux/slices/filterSlice' 
+import { filterSelectorSort } from '../../redux/slices/filterSlice' 
 
-type PopUpSortListTipe = {
+type TPopUpSortList = {
   name: string;
   sortProp: string;
 }
 
-export const popUpSortList: PopUpSortListTipe[]  = [
+type TPopupClick = React.MouseEvent<HTMLBodyElement> & {
+  path: Node[];
+}
+
+export const popUpSortList: TPopUpSortList[]  = [
   { name: 'популрности', sortProp: 'rating' },
   { name: 'цене', sortProp: 'price' },
   { name: 'алфавиту', sortProp: 'title' },
@@ -21,23 +25,23 @@ const Sort: React.FC = () => {
   const sortRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOutside = (evt: any) => {
-      if(!evt.path.includes(sortRef.current)){
+    const handleClickOutside = (event: MouseEvent) => {
+      //@ts-ignore
+     const _event = event as TPopupClick; 
+
+      if(sortRef.current && !_event.path.includes(sortRef.current)){
         setShowPopUp(false)
-        console.log('кликк')
       }
     }
 
     document.body.addEventListener('click', handleClickOutside)
-    console.log('замаунтился')
 
     return () => { // componentWillUnmount
       document.body.removeEventListener('click', handleClickOutside)
-      console.log('размаунтился')
     }
   }, [])
 
-  function sortingFu(listItem: PopUpSortListTipe) {
+  function sortingFu(listItem: TPopUpSortList) {
     dispatch(setSortType(listItem));
     console.log(listItem)
     // listItem это объект

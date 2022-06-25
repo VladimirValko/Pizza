@@ -20,13 +20,13 @@ const Search = () => {
 
   // useCallback что бы функция не сбрасывлась при перерисовке компонента 
   const updateSerchVlue = useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
     }, 400),
     [],
   );
 
-  const onChangeInputValue = (evt:any) => {
+  const onChangeInputValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
     updateSerchVlue(evt.target.value);
     setInputVlue(evt.target.value);
   };
