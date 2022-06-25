@@ -1,68 +1,89 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { addProduct } from '../../redux/slices/cartSlice';
+import { addProduct, selectCartItemById } from '../../redux/slices/cartSlice';
 import { Link } from 'react-router-dom';
 
-const PizzaBlock = ({id, imageUrl, title, price, sizes, types}) => {
+type PizzaBlockProps = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+};
 
+type CartItemType = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  price: number;
+  sizes: number;
+  types?: number;
+  count: number;
+}
+
+const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, sizes, types }) => {
   const typeNames = ['Тонкое', 'Традиционное'];
   // что бы отрисовать называние теста пришедшее из массива в виде циффр 0 и 1
   // 0 - будет тонкое, 1 - традиционное, в соответсвии с их индексами в массиве typeNames
 
-  const cartItem = useSelector(state => state.cartReducer.products.find((obj) => obj.id === id))
-  const addedCount = cartItem ? cartItem.count : 0
+  const cartItem: CartItemType = useSelector(selectCartItemById(id));
+  const addedCount = cartItem ? cartItem.count : 0;
 
-  const [isActiveSize, setIsActiveSize] = useState(0); 
+  const [isActiveSize, setIsActiveSize] = useState(0);
   const [isActiveType, setIsActiveType] = useState(0);
 
   const dispatch = useDispatch();
 
   const addToCart = () => {
     const pizzaItem = {
-      id, title, price, imageUrl, type: typeNames[isActiveType], sizes: sizes[isActiveSize]
-    }
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[isActiveType],
+      sizes: sizes[isActiveSize],
+    };
 
-    dispatch(addProduct(pizzaItem))
-  }
+    dispatch(addProduct(pizzaItem));
+  };
 
   return (
-    <div className='pizza-block__wrapper'>
+    <div className="pizza-block__wrapper">
       <div className="pizza-block">
-      <Link to={`/pizza/${id}`}>
-        <img
-          className="pizza-block__image"
-          src={imageUrl}
-          alt={title}
-        />
-        <h4 className="pizza-block__title">{title}</h4>
+        <Link to={`/pizza/${id}`}>
+          <img className="pizza-block__image" src={imageUrl} alt={title} />
+          <h4 className="pizza-block__title">{title}</h4>
         </Link>
         <div className="pizza-block__selector">
           <ul>
             {types.map((typeIndex, i) => {
-              return <li 
-              onClick={() => setIsActiveType(i)}
-              className={isActiveType === i ? 'active' : ''}
-              key={i + typeIndex}>
-                {typeNames[typeIndex]}</li>
+              return (
+                <li
+                  onClick={() => setIsActiveType(i)}
+                  className={isActiveType === i ? 'active' : ''}
+                  key={i + typeIndex}>
+                  {typeNames[typeIndex]}
+                </li>
+              );
             })}
           </ul>
           <ul>
             {sizes.map((size, i) => {
-              return <li
-              onClick={() => setIsActiveSize(i)}
-              className={isActiveSize === i ? 'active' : ''}
-              key={title + i}>
-                {size} см.
-              </li>
+              return (
+                <li
+                  onClick={() => setIsActiveSize(i)}
+                  className={isActiveSize === i ? 'active' : ''}
+                  key={title + i}>
+                  {size} см.
+                </li>
+              );
             })}
-
           </ul>
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <div 
-          onClick={addToCart}
-          className="button button--outline button--add">
+          <div onClick={addToCart} className="button button--outline button--add">
             <svg
               width="12"
               height="12"

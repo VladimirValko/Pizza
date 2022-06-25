@@ -1,7 +1,7 @@
 import React from "react"
 import ContentLoader from "react-content-loader"
 
-const Skeleton = (props) => (
+const Skeleton = (props: any) => (
     <ContentLoader 
     className="pizza-block" // кастомный класс что бы скелетоны вставали в ряд как и пиццы
     speed={2}

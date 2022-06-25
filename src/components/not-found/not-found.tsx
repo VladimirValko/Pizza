@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './not-found.module.scss';
 import img from '../../assets/img/404.jpg'
 
-const NotFound = () => {
+const NotFound: React.FC = () => {
   return (
     <div className={styles.root}>
       <h1>Ничюго не найденo_0</h1>

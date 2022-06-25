@@ -4,13 +4,13 @@ import logo from '../../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import Search from '../search/search'
 import { motion, } from "framer-motion"
+import { cartReducer } from '../../redux/slices/cartSlice'
 
-const Header = () => {
+const Header:React.FC = () => {
 
-  const totalPrice = useSelector(state => state.cartReducer.totalPrice);
-  const pizzazInCart = useSelector(state => (state.cartReducer.products));
+  const  { products, totalPrice} = useSelector(cartReducer);
 
-  const totalCount = pizzazInCart.reduce((sum, pizza) => sum + pizza.count, 0)
+  const totalCount: number = products.reduce((sum: number, pizza: any) => sum + pizza.count, 0)
 
   return (
     <div>

@@ -1,21 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { setSortType } from '../../redux/slices/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { filterSelector, filterSelectorSort } from '../../redux/slices/filterSlice' 
 
-export const popUpSortList = [
+type PopUpSortListTipe = {
+  name: string;
+  sortProp: string;
+}
+
+export const popUpSortList: PopUpSortListTipe[]  = [
   { name: 'популрности', sortProp: 'rating' },
   { name: 'цене', sortProp: 'price' },
   { name: 'алфавиту', sortProp: 'title' },
 ];
 
-const Sort = () => {
+const Sort: React.FC = () => {
   const [showPopUp, setShowPopUp] = useState(false);
-  const sortType = useSelector(state => state.filterReducer.sort);
+  const sort = useSelector(filterSelectorSort);
   const dispatch = useDispatch();
-  const sortRef = useRef()
+  const sortRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOutside = (evt) => {
+    const handleClickOutside = (evt: any) => {
       if(!evt.path.includes(sortRef.current)){
         setShowPopUp(false)
         console.log('кликк')
@@ -31,8 +37,9 @@ const Sort = () => {
     }
   }, [])
 
-  function sortingFu(listItem) {
+  function sortingFu(listItem: PopUpSortListTipe) {
     dispatch(setSortType(listItem));
+    console.log(listItem)
     // listItem это объект
     setShowPopUp(!showPopUp);
   }
@@ -53,7 +60,7 @@ const Sort = () => {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={() => setShowPopUp(!showPopUp)}>{sortType.name}</span>
+          <span onClick={() => setShowPopUp(!showPopUp)}>{sort.name}</span>
         </div>
         {showPopUp && (
           <div className="sort__popup">
@@ -63,7 +70,7 @@ const Sort = () => {
                   <li
                     key={listItemObj.sortProp + i}
                     onClick={() => sortingFu(listItemObj)}
-                    className={sortType.sortProp === listItemObj.sortProp ? 'active' : ''}>
+                    className={sort.sortProp === listItemObj.sortProp ? 'active' : ''}>
                     {listItemObj.name}
                   </li>
                 );

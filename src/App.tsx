@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import './scss/app.scss';
 import Home from './pages/home';
-import NotFoundPage from './pages/not-found-page.jsx';
+import NotFoundPage from './pages/not-found-page';
 import Cart from './pages/cart';
 import FullPizza from './pages/fullPizza';
 

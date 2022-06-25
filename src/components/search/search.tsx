@@ -10,12 +10,12 @@ const Search = () => {
   const [inputVlue, setInputVlue] = useState('');
   
   const dispatch = useDispatch();
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
     setInputVlue('');
     dispatch(setSearchValue(''));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   // useCallback что бы функция не сбрасывлась при перерисовке компонента 
@@ -26,7 +26,7 @@ const Search = () => {
     [],
   );
 
-  const onChangeInputValue = (evt) => {
+  const onChangeInputValue = (evt:any) => {
     updateSerchVlue(evt.target.value);
     setInputVlue(evt.target.value);
   };
