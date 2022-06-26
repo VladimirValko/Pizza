@@ -13,3 +13,5 @@ export const store = configureStore({
     pizzazDBReducer,
   }
 });
+
+export type RootState = ReturnType<typeof store.getState>

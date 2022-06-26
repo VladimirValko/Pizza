@@ -8,12 +8,12 @@ import { cartReducer } from '../../redux/slices/cartSlice'
 
 type TPizza = {
   id: string;
-  title: string;
-  price: number;
+  title: string; 
+  type?: number; 
+  sizes: number[]; 
+  price: number; 
+  count: number; 
   imageUrl: string;
-  type: string;
-  size: number;
-  count: number;
 }
 
 const Header:React.FC = () => {

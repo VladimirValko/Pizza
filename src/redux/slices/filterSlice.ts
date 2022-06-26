@@ -1,6 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
-const initialState = { // state
+type TSort = {
+  name: string;
+  sortProp: 'rating' | 'price' | 'title';
+}
+
+type TFilterState = {
+  categoryId: number;
+  sort: TSort
+}
+
+const initialState: TFilterState = { // state
   categoryId: 0,
   sort: {
     name: 'популярности',
@@ -30,8 +41,8 @@ export const filterSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { setCategoryId, setSortType, setURLFilters } = filterSlice.actions
 
-export const filterSelector = (state) => state.filterReducer
-export const filterSelectorSort = (state) => state.filterReducer.sort
+export const filterSelector = (state: RootState) => state.filterReducer
+export const filterSelectorSort = (state: RootState) => state.filterReducer.sort
 
 
 export default filterSlice.reducer

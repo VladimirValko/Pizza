@@ -1,6 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
-const initialState = { // state
+type TCartItem = {
+  id: string;
+  title: string; 
+  type?: number; 
+  sizes: number[]; 
+  price: number; 
+  count: number; 
+  imageUrl: string;
+}
+
+type TCartState = {
+  totalPrice: number;
+  products: TCartItem[];
+}
+
+const initialState: TCartState = { // state
   totalPrice: 0,
   products: [],
 }
@@ -64,8 +80,8 @@ export const cartSlice = createSlice({
   },
 })
 
-export const  cartReducer = (state) => state.cartReducer;
-export const  selectCartItemById = (id) => (state) => state.cartReducer.products.find((obj) => obj.id === id)
+export const  cartReducer = (state: RootState) => state.cartReducer;
+export const  selectCartItemById = (id: string) => (state: RootState) => state.cartReducer.products.find((obj) => obj.id === id)
 
 // Action creators are generated for each case reducer function
 export const { addProduct, removeProduct, deleteProduct, clearProducts } = cartSlice.actions
