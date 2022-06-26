@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addProduct, removeProduct, deleteProduct } from '../../redux/slices/cartSlice';
+import { addProduct, removeProduct, deleteProduct, TCartItem } from '../../redux/slices/cartSlice';
 
 type PizzaInCartProps ={
   id: string;
@@ -17,7 +17,7 @@ const PizzaInCart: React.FC<PizzaInCartProps> = ({ id, title, type, sizes, price
 
   const onClickPlus = () => {
     dispatch(
-      addProduct({ id, title, type, sizes, price, count, imageUrl }),
+      addProduct({ id } as TCartItem),
     );
     console.log('plus clicked');
   };
@@ -28,7 +28,7 @@ const PizzaInCart: React.FC<PizzaInCartProps> = ({ id, title, type, sizes, price
 
   const onClickMinus = () => {
     dispatch(
-        removeProduct({ id, title, type, sizes, price, count, imageUrl }) // (obj => obj.id !== action.payload) по этому не объект
+        removeProduct({ id } as TCartItem) // (obj => obj.id !== action.payload) по этому не объект
     );
     console.log('minus clicked');
   };
