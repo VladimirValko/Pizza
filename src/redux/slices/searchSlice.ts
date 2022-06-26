@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
 type TSearchState = {
@@ -13,7 +13,7 @@ export const searchSlice = createSlice({
     name: 'search',
     initialState: initialState,
     reducers: { // setState -- экшены -- filterSlice.actions
-        setSearchValue(state, action ){
+        setSearchValue(state, action: PayloadAction<string> ){
         state.searchValue = action.payload
       }
     },

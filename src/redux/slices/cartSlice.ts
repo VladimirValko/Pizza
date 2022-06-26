@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 type TCartItem = {
   id: string;
   title: string; 
-  type?: number; 
-  sizes: number[]; 
+  type: string; 
+  sizes: number; 
   price: number; 
   count: number; 
   imageUrl: string;
@@ -26,12 +26,7 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState: initialState,
   reducers: { // setState -- экшены -- cartSlice.actions
-    addProduct(state, action ){
-      // state.products.push(action.payload);
-      // state.totalPrice = state.products.reduce((sum, obj) => {
-      //   return obj.price + sum
-      // }, 0)
-
+    addProduct(state, action: PayloadAction<TCartItem> ){ // PayloadAction<> что хранит пэйлоад
       const foundPizza = state.products.find(obj => obj.id === action.payload.id)
 
       if (foundPizza) {
@@ -49,7 +44,7 @@ export const cartSlice = createSlice({
     },
 
 
-    removeProduct(state, action){
+    removeProduct(state, action: PayloadAction<TCartItem>){
       const foundPizza = state.products.find(obj => obj.id === action.payload.id)
     
       if (foundPizza && foundPizza.count !== 0) {
@@ -61,7 +56,7 @@ export const cartSlice = createSlice({
       }, 0)
     },
 
-    deleteProduct(state, action){
+    deleteProduct(state, action: PayloadAction<string> ){
       state.products = state.products.filter((obj) => obj.id !== action.payload)
     
       state.totalPrice = state.products.reduce((sum, obj) => {

@@ -5,7 +5,7 @@ import { filterSelectorSort } from '../../redux/slices/filterSlice'
 
 type TPopUpSortList = {
   name: string;
-  sortProp: string;
+  sortProp: 'rating' | 'price' | 'title';
 }
 
 type TPopupClick = React.MouseEvent<HTMLBodyElement> & {

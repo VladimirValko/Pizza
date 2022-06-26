@@ -5,8 +5,8 @@ import { addProduct, removeProduct, deleteProduct } from '../../redux/slices/car
 type PizzaInCartProps ={
   id: string;
   title: string; 
-  type?: number; 
-  sizes: number[]; 
+  type: string; 
+  sizes: number; 
   price: number; 
   count: number; 
   imageUrl: string;
@@ -17,9 +17,7 @@ const PizzaInCart: React.FC<PizzaInCartProps> = ({ id, title, type, sizes, price
 
   const onClickPlus = () => {
     dispatch(
-      addProduct({
-        id, // (obj => obj.id === action.payload.id)
-      }),
+      addProduct({ id, title, type, sizes, price, count, imageUrl }),
     );
     console.log('plus clicked');
   };
@@ -30,7 +28,7 @@ const PizzaInCart: React.FC<PizzaInCartProps> = ({ id, title, type, sizes, price
 
   const onClickMinus = () => {
     dispatch(
-        removeProduct({id}) // (obj => obj.id !== action.payload) по этому не объект
+        removeProduct({ id, title, type, sizes, price, count, imageUrl }) // (obj => obj.id !== action.payload) по этому не объект
     );
     console.log('minus clicked');
   };

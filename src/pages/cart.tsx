@@ -8,8 +8,8 @@ import EmptyCart from '../components/emptyCart/emptyCart';
 type TPizza = {
   id: string;
   title: string; 
-  type?: number; 
-  sizes: number[]; 
+  type: string; 
+  sizes: number; 
   price: number; 
   count: number; 
   imageUrl: string;
@@ -26,7 +26,7 @@ const Cart: React.FC = () => {
 
   const {products, totalPrice} = useSelector(cartReducer);
 
-  const totalCount: number = products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0);
+  const totalCount= products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0);
 
 
   if (!totalPrice) {

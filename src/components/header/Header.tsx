@@ -9,8 +9,8 @@ import { cartReducer } from '../../redux/slices/cartSlice'
 type TPizza = {
   id: string;
   title: string; 
-  type?: number; 
-  sizes: number[]; 
+  type: string; 
+  sizes: number; 
   price: number; 
   count: number; 
   imageUrl: string;
@@ -20,7 +20,7 @@ const Header:React.FC = () => {
 
   const  { products, totalPrice} = useSelector(cartReducer);
 
-  const totalCount: number = products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0)
+  const totalCount = products.reduce((sum: number, pizza: TPizza) => sum + pizza.count, 0)
 
   return (
     <div>

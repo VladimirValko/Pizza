@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 type TSort = {
@@ -24,13 +24,13 @@ export const filterSlice = createSlice({
   name: 'filter',
   initialState: initialState,
   reducers: { // setState -- экшены -- filterSlice.actions
-    setCategoryId(state, action ){
+    setCategoryId(state, action: PayloadAction<number>){
       state.categoryId = action.payload
     },
-    setSortType(state, action){
+    setSortType(state, action: PayloadAction<TSort>){
       state.sort = action.payload
     },
-    setURLFilters(state, action){
+    setURLFilters(state, action: PayloadAction<TFilterState>){
       state.categoryId = action.payload.categoryId
       state.sort = action.payload.sort
       console.log(action.payload)

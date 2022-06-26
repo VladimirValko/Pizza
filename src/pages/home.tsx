@@ -3,7 +3,6 @@ import "../scss/app.scss";
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import Categories from "../components/categories/Categories";
 import PizzaBlock from "../components/pizza-block/PizzaBlock";
 import Sort from "../components/sort/Sort";
@@ -16,6 +15,7 @@ import {
   setCategoryId,
   setURLFilters,
 } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 
 type PizzaItemType = {
   id: string;
@@ -24,6 +24,7 @@ type PizzaItemType = {
   price: number;
   sizes: number[];
   types: number[];
+  count: number;
 }
 
 const Home: React.FC = () => {
@@ -32,7 +33,7 @@ const Home: React.FC = () => {
   const searchValue = useSelector(searchSelector);
   const isSearchInURL = useRef(false);
   const isMounted = useRef(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   console.log(categoryId)
@@ -40,8 +41,11 @@ const Home: React.FC = () => {
   const fetchPizzasFromDB = async () => {
     
     dispatch(
-      // @ts-ignore
-      fetchPizzasDB());
+      fetchPizzasDB({
+        searchValue,
+        categoryId,
+        sort,
+      }));
   };
 
   useEffect(() => {
@@ -67,23 +71,23 @@ const Home: React.FC = () => {
       // params это объект
       console.log(params);
 
-      const sort = popUpSortList.find(
-        (obj) => obj.sortProp === params.sortType
-      );
+      // const sort = popUpSortList.find(
+      //   (obj) => obj.sortProp === params.sortType
+      // );
 
-      dispatch(
-        setURLFilters({
-          ...params,
-          sort,
-        })
-      );
+      // dispatch(
+      //   setURLFilters({
+      //     ...params,
+      //     sort,
+      //   })
+      // );
 
       isSearchInURL.current = true;
     }
   }, []);
 
-  const pizzasArr: PizzaItemType[] = pizzas.map((pizza: PizzaItemType, i: number) => (
-      <PizzaBlock {...pizza} key={i + pizza.title} />
+  const pizzasArr = pizzas.map((pizza: PizzaItemType, i: number) => (
+      <PizzaBlock  {...pizza} key={i + pizza.title} />
   ));
   //[...new Array(8)] фэйковый массив с 8 undefined что бы отрендерить 8 скелетонов
   const skeletons = [...new Array(8)].map((_, index) => (

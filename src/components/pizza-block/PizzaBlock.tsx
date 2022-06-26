@@ -10,24 +10,16 @@ type PizzaBlockProps = {
   price: number;
   sizes: number[];
   types: number[];
+  count: number;
 };
 
-type CartItemType = {
-  id: string;
-  imageUrl: string;
-  title: string;
-  price: number;
-  sizes: number;
-  types?: number;
-  count: number;
-}
 
-const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, sizes, types }) => {
+const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, sizes, types, count }) => {
   const typeNames = ['Тонкое', 'Традиционное'];
   // что бы отрисовать называние теста пришедшее из массива в виде циффр 0 и 1
   // 0 - будет тонкое, 1 - традиционное, в соответсвии с их индексами в массиве typeNames
 
-  const cartItem: CartItemType = useSelector(selectCartItemById(id));
+  const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem ? cartItem.count : 0;
 
   const [isActiveSize, setIsActiveSize] = useState(0);
@@ -43,6 +35,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, size
       imageUrl,
       type: typeNames[isActiveType],
       sizes: sizes[isActiveSize],
+      count
     };
 
     dispatch(addProduct(pizzaItem));
